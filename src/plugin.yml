@@ -1,0 +1,29 @@
+name: BetterTownyWars
+version: 2.1.4
+author: Joselu
+main: com.aurgiyalgo.BetterTownyWars.BetterTownyWars
+depend: [Towny]
+commands:
+  bettertownywars:
+    description: Main command of BetterTownyWars
+    usage: /<command>
+    aliases: btw
+    permission: btw.use
+permissions:
+  btw.*:
+    description: Give you access to all the plugin features
+    default: op
+    children:
+      btw.use: true
+  btw.use:
+    description: Give access to the /btw command
+    default: true
+  btw.declare:
+    description: Allows a player to declare a war to another nation
+    default: op
+  btw.finish:
+    description: Allows a player to finish a war
+    default: op
+  btw.neutral:
+    description: Allows a player to toggle the nation neutrality
+    default: op
