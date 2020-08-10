@@ -52,6 +52,7 @@ public class WarManager {
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject currentObject = jsonArray.get(i);
 			War war = _gson.fromJson(currentObject.toJSONString(), WarType.getWarType(currentObject.get("_type").toString()).getClassType());
+			war.setupWar();
 			_wars.add(war);
 		}
 	}

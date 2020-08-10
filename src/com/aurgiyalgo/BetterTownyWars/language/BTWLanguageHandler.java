@@ -13,7 +13,6 @@ import com.aurgiyalgo.BetterTownyWars.BetterTownyWars.Configuration;
 public class BTWLanguageHandler {
 	
 	private Map<String, String> _messagesMap;
-	private File file;
 	
 	public BTWLanguageHandler(FileConfiguration languageFile, File file) {
 		
@@ -50,6 +49,10 @@ public class BTWLanguageHandler {
 		}
 	}
 	
+	/**
+	 * @param key Keyword of the message to retrieve
+	 * @return String containing the message (or "" if not found)
+	 */
 	public String getMessage(String key) {
 		if (!_messagesMap.containsKey(key)) {
 			if (!Configuration.ADD_MISSING_MESSAGES_TO_CONFIG) return "";

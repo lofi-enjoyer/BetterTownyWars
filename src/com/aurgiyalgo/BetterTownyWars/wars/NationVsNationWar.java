@@ -29,9 +29,11 @@ public class NationVsNationWar extends War {
 
 	public NationVsNationWar(String warType, long endTime) {
 		super(warType, endTime);
+		setupWar();
 	}
-	
-	private void setupNations() {
+
+	@Override
+	public void setupWar() {
 		_nations = new ArrayList<Nation>();
 		for (UUID member : getMembers()) {
 			try {
@@ -44,15 +46,12 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onWarDeclare() {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (Nation n : _nations)
 			TownyMessaging.sendTitleMessageToNation(n, "", BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-started"));
 	}
 
 	@Override
 	protected void onWarFinish() {
-		if (_nations == null || _nations.size() <= 0) setupNations();
-		
 		Nation winner = null;
 		
 		for (Nation n : _nations) {
@@ -83,8 +82,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onPlayerKill(Player victim, Player killer) {
-		if (_nations == null || _nations.size() <= 0) setupNations();
-
 		if (_deadPlayers.contains(victim.getUniqueId()))
 			return;
 
@@ -126,7 +123,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	public void enablePvP() {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (int i = 0; i < _nations.size(); i++) {
 			Nation n = _nations.get(i);
 			for (Town t : n.getTowns()) {
@@ -137,7 +133,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	public void disablePvP() {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (int i = 0; i < _nations.size(); i++) {
 			Nation n = _nations.get(i);
 			for (Town t : n.getTowns()) {
@@ -148,7 +143,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	public String getMemberName(UUID member) {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (Nation n : _nations) {
 			if (n.uuid == member)
 				return n.getName();
@@ -158,7 +152,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onMemberJoin(UUID member) {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		try {
 			Nation n = TownyUniverse.getInstance().getDataSource().getNation(member);
 			_nations.add(n);
@@ -168,7 +161,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onMemberLeave(UUID member) {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (Nation n : _nations) {
 			if (n.uuid.equals(member))
 				_nations.remove(n);
@@ -177,7 +169,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onWarPeace() {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		for (Nation n : _nations) {
 			TownyMessaging.sendNationMessage(n, BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-ended-by-peace"));
 		}
@@ -185,7 +176,6 @@ public class NationVsNationWar extends War {
 
 	@Override
 	protected void onMemberRequestPeace(UUID member) {
-		if (_nations == null || _nations.size() <= 0) setupNations();
 		Nation nationRequest = null;
 		for (Nation n : _nations) {
 			if (n.uuid.equals(member)) {

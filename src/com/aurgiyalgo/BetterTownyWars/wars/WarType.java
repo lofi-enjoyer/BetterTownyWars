@@ -6,15 +6,7 @@ import java.util.Set;
 
 public class WarType {
 	
-//	NATION_VS_NATION("NATION_VS_NATION", "Nation vs Nation", NationVsNationWar.class);
-	
 	private static final Map<String, WarType> values = new HashMap<String, WarType>();
-	
-//	static {
-//		for (WarType type : WarType.values()) {
-//			lookup.put(type.toString(), type);
-//		}
-//	}
 	
 	private String _type;
 	private String _formattedName;

@@ -30,7 +30,8 @@ public class TownVsTownWar extends War {
 		super(warType, endTime);
 	}
 	
-	private void setupTowns() {
+	@Override
+	public void setupWar() {
 		_towns = new ArrayList<Town>();
 		for (UUID member : getMembers()) {
 			try {
@@ -43,7 +44,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onWarDeclare() {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns)
 			TownyMessaging.sendTitleMessageToTown(t, "",
 					BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-started"));
@@ -51,7 +51,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onWarFinish() {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		Town winner = null;
 
 		for (Town t : _towns) {
@@ -87,7 +86,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onPlayerKill(Player victim, Player killer) {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 
 		if (_deadPlayers.contains(victim.getUniqueId()))
 			return;
@@ -131,7 +129,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	public void enablePvP() {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns) {
 			t.setAdminEnabledPVP(true);
 		}
@@ -139,7 +136,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	public void disablePvP() {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns) {
 			t.setAdminEnabledPVP(false);
 		}
@@ -147,7 +143,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	public String getMemberName(UUID member) {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns) {
 			if (t.getUuid().equals(member))
 				return t.getName();
@@ -157,7 +152,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onMemberJoin(UUID member) {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		try {
 			Town t = TownyUniverse.getInstance().getDataSource().getTown(member);
 			_towns.add(t);
@@ -167,7 +161,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onMemberLeave(UUID member) {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns) {
 			if (t.getUuid().equals(member))
 				_towns.remove(t);
@@ -176,7 +169,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onWarPeace() {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		for (Town t : _towns) {
 			TownyMessaging.sendTownMessage(t,
 					BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-ended-by-peace"));
@@ -185,7 +177,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onMemberRequestPeace(UUID member) {
-		if (_towns == null || _towns.size() <= 0) setupTowns();
 		Town townRequest = null;
 		for (Town t : _towns) {
 			if (t.getUuid().equals(member)) {

@@ -1,4 +1,3 @@
-
 package com.aurgiyalgo.BetterTownyWars.data;
 
 import java.io.File;
@@ -20,6 +19,9 @@ public class DataHandler {
 	private JSONObject _jsonData;
 	private JSONObject _jsonDataToSave;
 	
+	/**
+	 * @param dataFolder Folder where the "data.json" will be loaded/stored
+	 */
 	public DataHandler(File dataFolder) {
 		_jsonDataToSave = new JSONObject();
 		if (!dataFolder.exists()) return;
@@ -38,6 +40,10 @@ public class DataHandler {
 		
 	}
 	
+	/**
+	 * @param dataTag Tag of the JSONObject list you want to retrieve from the data file
+	 * @return JSONObject list under the tag specified
+	 */
 	public List<JSONObject> getDataList(String dataTag) {
 		if (!_dataIsLoaded) return null;
 		if (!_jsonData.containsKey(dataTag)) return null;
@@ -49,6 +55,10 @@ public class DataHandler {
 		return dataList;
 	}
 	
+	/**
+	 * @param dataTag Tag under which store the data list
+	 * @param dataArray List of JSONObject to store
+	 */
 	@SuppressWarnings("unchecked")
 	public void addDataList(String dataTag, List<JSONObject> dataArray) {
 		JSONArray jsonArray = new JSONArray();
@@ -59,6 +69,9 @@ public class DataHandler {
 		_jsonDataToSave.put(dataTag, jsonArray);
 	}
 	
+	/**
+	 * Save data to data.json file
+	 */
 	public void saveData() {
 		try {
 			FileWriter fw = new FileWriter(_dataFile);

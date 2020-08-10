@@ -3,7 +3,6 @@ package com.aurgiyalgo.BetterTownyWars.commands;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -135,11 +134,10 @@ public class BTWCommandExecutor implements CommandExecutor {
 		builder.append(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "Active wars Now" + ChatColor.RESET + "\n\n");
 		for (War war : allWars) {
 			builder.append(" - ");
-			boolean loopStarted = false;
-			for (UUID member : war.getMembers()) {
-				if (loopStarted) builder.append(", ");
-				builder.append(war.getMemberName(member));
-				loopStarted = true;
+			builder.append(war.getMemberName(war.getMembers().get(0)));
+			for (int i = 1; i < war.getMembers().size(); i++) {
+				builder.append(", ");
+				builder.append(war.getMemberName(war.getMembers().get(i)));
 			}
 			builder.append(" (" + war.getType().getFormattedName() + ")\n");
 		}

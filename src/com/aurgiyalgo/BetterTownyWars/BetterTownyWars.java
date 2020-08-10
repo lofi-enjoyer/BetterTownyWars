@@ -13,6 +13,7 @@ import com.aurgiyalgo.BetterTownyWars.commands.BTWCommandExecutor;
 import com.aurgiyalgo.BetterTownyWars.data.DataHandler;
 import com.aurgiyalgo.BetterTownyWars.language.BTWLanguageHandler;
 import com.aurgiyalgo.BetterTownyWars.listeners.BTWListener;
+import com.aurgiyalgo.BetterTownyWars.listeners.BTWTabCompleter;
 import com.aurgiyalgo.BetterTownyWars.wars.NationVsNationWar;
 import com.aurgiyalgo.BetterTownyWars.wars.TownVsTownWar;
 import com.aurgiyalgo.BetterTownyWars.wars.WarManager;
@@ -49,6 +50,7 @@ public class BetterTownyWars extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(_listener, _instance);
 		getCommand("bettertownywars").setExecutor(new BTWCommandExecutor());
 		getCommand("bettertownywars").setPermissionMessage(_languageHandler.getMessage("no-permission"));
+		getCommand("bettertownywars").setTabCompleter(new BTWTabCompleter());
 		
 		this._warManager.forcePvPInTownsAtWar();
 //		this._warManager.initTimeLimitCheck();
