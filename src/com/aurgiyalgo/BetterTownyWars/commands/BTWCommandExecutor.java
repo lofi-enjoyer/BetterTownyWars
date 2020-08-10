@@ -64,9 +64,6 @@ public class BTWCommandExecutor implements CommandExecutor {
 		case "list":
 			listActiveWars(sender);
 			break;
-//		case "neutral":
-//			toggleNationNeutrality(sender);
-//			break;
 		default:
 			sender.sendMessage(ChatColor.RED + "Type a correct argument (/btw help)");
 			break;
@@ -85,44 +82,6 @@ public class BTWCommandExecutor implements CommandExecutor {
 				+ "&f  - neutral &8- &7Toggle neutrality of your nation&r\n"
 				+ "&f  - list &8- &7List of active wars"));
 	}
-	
-//	private void toggleNationNeutrality(CommandSender sender) {
-//		if (!(sender instanceof Player)) {
-//			sender.sendMessage(ChatColor.RED + "This command can only be used by a player!");
-//			return;
-//		}
-//		if (!sender.hasPermission(BetterTownyWars.Permissions.TOGGLE_NEUTRALITY_PERMISSION)) {
-//			sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getFormattedMessage("no-permission"));
-//			return;
-//		}
-//		Player p = (Player) sender;
-//		Nation playerNation;
-//		try {
-//			playerNation = TownyUniverse.getInstance().getDataSource().getResident(p.getName()).getTown().getNation();
-//		} catch (NotRegisteredException e) {
-//			sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getFormattedMessage("not-in-a-nation"));
-//			return;
-//		}
-//		try {
-//			if (playerNation.getAccount().getHoldingBalance() < Configuration.NEUTRALITY_COST) {
-//				sender.sendMessage(ChatColor.RED + "Your nation can not afford being neutral");
-//				return;
-//			}
-//		} catch (EconomyException e) {
-//			return;
-//		}
-//		//TODO Comprobar si la nación tiene en su cuenta el coste de neutralidad
-//		if (BetterTownyWars.getInstance().getNeutralityManager().isNeutral(playerNation.uuid)) {
-//			BetterTownyWars.getInstance().getNeutralityManager().removeNeutral(playerNation.uuid);
-//			TownyMessaging.sendTitleMessageToNation(playerNation, "", ChatColor.RED + "Your nation is no longer neutral");
-//		} else {
-//			BetterTownyWars.getInstance().getNeutralityManager().addNeutral(playerNation.uuid);
-//			TownyMessaging.sendTitleMessageToNation(playerNation, "", ChatColor.GREEN + "Your nation is now neutral");
-//		}
-//		try {
-//			playerNation.getAccount().collect(Configuration.NEUTRALITY_COST, "Neutrality cost");
-//		} catch (EconomyException e) {}
-//	}
 	
 	private void listActiveWars(CommandSender sender) {
 		List<War> allWars = BetterTownyWars.getInstance().getWarManager().getAllWars();
