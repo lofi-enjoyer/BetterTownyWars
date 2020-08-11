@@ -22,10 +22,11 @@ public class BTWCommandExecutor implements CommandExecutor {
 			return true;
 		}
 		switch (args[0]) {
-		case "help":
+		case "help": {
 			showHelp(sender);
+		}
 			break;
-		case "declare":
+		case "declare": {
 			if (args.length < 3) {
 				sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("not-enough-arguments"));
 				return true;
@@ -40,11 +41,10 @@ public class BTWCommandExecutor implements CommandExecutor {
 				method.invoke(null, sender, cmd, cmdString, args);
 			} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
-				System.err.println("Cause:");
-				e.getCause().printStackTrace();
 			}
+		}
 			break;
-		case "finish":
+		case "finish": {
 			if (args.length < 3) {
 				sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("not-enough-arguments"));
 				return true;
@@ -60,12 +60,15 @@ public class BTWCommandExecutor implements CommandExecutor {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 			break;
-		case "list":
+		case "list": {
 			listActiveWars(sender);
+		}
 			break;
-		default:
+		default: {
 			sender.sendMessage(ChatColor.RED + "Type a correct argument (/btw help)");
+		}
 			break;
 		}
 		return true;
