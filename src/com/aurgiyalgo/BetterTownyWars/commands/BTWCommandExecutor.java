@@ -80,8 +80,8 @@ public class BTWCommandExecutor implements CommandExecutor {
 				+ "\n"
 				+ "&7&oSubcommands:&r\n"
 				+ "&f  - help &8- &7Shows this message&7&r\n"
-				+ "&f  - declare [nation] &8- &7Declare a war to a nation&r\n"
-				+ "&f  - finish [nation] &8- &8Finish a war&r\n"
+				+ "&f  - declare [type of war] [town/nation] &8- &7Declare a war to a nation&r\n"
+				+ "&f  - finish [type of war] [town/nation] &8- &8Finish a war&r\n"
 				+ "&f  - neutral &8- &7Toggle neutrality of your nation&r\n"
 				+ "&f  - list &8- &7List of active wars"));
 	}
