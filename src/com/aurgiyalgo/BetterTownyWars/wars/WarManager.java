@@ -59,11 +59,9 @@ public class WarManager {
 	
 	public void saveData() {
 		List<JSONObject> jsonArray = new ArrayList<JSONObject>();
-		System.out.println(_wars.size());
 		for (War w : _wars) {
 			try {
 				JSONObject jsonObject = (JSONObject) new JSONParser().parse(_gson.toJson(w));
-				System.out.println(_gson.toJson(w));
 				jsonArray.add(jsonObject);
 			} catch (ParseException e) {e.printStackTrace();}
 		}
@@ -126,7 +124,10 @@ public class WarManager {
 	}
 	
 	public void onPlayerKill(Player victim, Player killer) {
-		for (War war : _wars) war.onPlayerKill(victim, killer);
+		List<War> tempWars = new ArrayList<War>(_wars);
+		for (War war : tempWars) {
+			war.onPlayerKill(victim, killer);
+		}
 	}
 
 }

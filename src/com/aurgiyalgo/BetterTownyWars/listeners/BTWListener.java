@@ -19,7 +19,7 @@ public class BTWListener implements Listener {
 		if (!(e.getEntity() instanceof Player)) return;
 		if (!(e.getDamager() instanceof Player)) return;
 		
-		if (((Player)e.getEntity()).getHealth() > 0) return;
+		if (((Player)e.getEntity()).getHealth() - e.getDamage() > 0) return;
 		
 		BetterTownyWars.getInstance().getWarManager().onPlayerKill((Player) e.getEntity(), (Player) e.getDamager());
 	}

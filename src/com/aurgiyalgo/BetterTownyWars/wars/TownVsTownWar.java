@@ -52,6 +52,7 @@ public class TownVsTownWar extends War {
 	@Override
 	protected void onWarFinish() {
 		Town winner = null;
+		Town looser = null;
 
 		for (Town t : _towns) {
 			int playersKilled = 0;
@@ -60,10 +61,9 @@ public class TownVsTownWar extends War {
 					playersKilled++;
 			}
 
-			if (playersKilled >= BetterTownyWars.Configuration.NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH
+			if (playersKilled < BetterTownyWars.Configuration.NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH
 					* t.getResidents().size()) {
 				winner = t;
-				break;
 			}
 		}
 
@@ -86,7 +86,6 @@ public class TownVsTownWar extends War {
 
 	@Override
 	protected void onPlayerKill(Player victim, Player killer) {
-
 		if (_deadPlayers.contains(victim.getUniqueId()))
 			return;
 
