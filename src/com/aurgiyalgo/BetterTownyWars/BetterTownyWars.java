@@ -53,12 +53,12 @@ public class BetterTownyWars extends JavaPlugin {
 		getCommand("bettertownywars").setTabCompleter(new BTWTabCompleter());
 		
 		this._warManager.forcePvPInTownsAtWar();
-//		this._warManager.initTimeLimitCheck();
+		this._warManager.initTimeLimitCheck();
 	}
 	
 	@Override
 	public void onDisable() {
-//		_warManager.disableTimeLimitCheck();
+		_warManager.disableTimeLimitCheck();
 		_warManager.saveData();
 		_warManager.disablePvPInTownsAtWar();
 		_dataHandler.saveData();
@@ -71,7 +71,7 @@ public class BetterTownyWars extends JavaPlugin {
 	
 	private void setupConfig() {
 		getConfig().addDefault("language", String.valueOf("en_US"));
-		getConfig().addDefault("max-war_duration", Long.valueOf(604800000L));
+		getConfig().addDefault("max_war_duration", Long.valueOf(604800000L));
 		getConfig().addDefault("nation_vs_nation_kill_percentage_to_finish", Double.valueOf(0.5));
 		getConfig().addDefault("lose_war_cost", Double.valueOf(100));
 		getConfig().addDefault("war_ended_check_interval", Integer.valueOf(30));

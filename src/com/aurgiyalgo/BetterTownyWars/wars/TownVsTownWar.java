@@ -23,13 +23,13 @@ public class TownVsTownWar extends War {
 
 	@Expose
 	private List<UUID> _deadPlayers = new ArrayList<UUID>();
-	
+
 	private List<Town> _towns = new ArrayList<Town>();
 
 	public TownVsTownWar(String warType, long endTime) {
 		super(warType, endTime);
 	}
-	
+
 	@Override
 	public void setupWar() {
 		_towns = new ArrayList<Town>();
@@ -211,13 +211,12 @@ public class TownVsTownWar extends War {
 		try {
 			enemyTown = TownyUniverse.getInstance().getDataSource().getTown(args[2]);
 		} catch (NotRegisteredException e) {
-			sender.sendMessage(
-					BetterTownyWars.getInstance().getLanguageHandler().getMessage("town-does-not-exist"));
+			sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("town-does-not-exist"));
 			return;
 		}
 		if (playerTown.equals(enemyTown)) {
-			sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler()
-					.getMessage("cannot-declare-your-own-town"));
+			sender.sendMessage(
+					BetterTownyWars.getInstance().getLanguageHandler().getMessage("cannot-declare-your-own-town"));
 			return;
 		}
 		try {
@@ -233,8 +232,8 @@ public class TownVsTownWar extends War {
 			sender.sendMessage(ChatColor.RED + "You are already at war with this town");
 			return;
 		}
-		TownVsTownWar war = new TownVsTownWar(WarType.getWarType("TOWN_VS_TOWN").toString(),
-				System.currentTimeMillis() + BetterTownyWars.Configuration.MAX_WAR_DURATION);
+		long endTime = System.currentTimeMillis() + BetterTownyWars.Configuration.MAX_WAR_DURATION;
+		TownVsTownWar war = new TownVsTownWar(WarType.getWarType("TOWN_VS_TOWN").toString(), endTime);
 		war.addMember(playerTown.getUuid());
 		war.addMember(enemyTown.getUuid());
 		BetterTownyWars.getInstance().getWarManager().declareWar(war);
@@ -266,8 +265,7 @@ public class TownVsTownWar extends War {
 		try {
 			enemyTown = TownyUniverse.getInstance().getDataSource().getTown(args[2]);
 		} catch (NotRegisteredException e) {
-			sender.sendMessage(
-					BetterTownyWars.getInstance().getLanguageHandler().getMessage("town-does-not-exist"));
+			sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("town-does-not-exist"));
 			return;
 		}
 		if (enemyTown.getName().equals(playerTown.getName())) {
@@ -287,8 +285,7 @@ public class TownVsTownWar extends War {
 			sender.sendMessage(ChatColor.RED + "You are not in war with that town!");
 			return;
 		}
-		sender.sendMessage(
-				BetterTownyWars.getInstance().getLanguageHandler().getMessage("you-peace-requested"));
+		sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("you-peace-requested"));
 		BetterTownyWars.getInstance().getWarManager().requestPeace(correctWar, playerTown.getUuid());
 	}
 

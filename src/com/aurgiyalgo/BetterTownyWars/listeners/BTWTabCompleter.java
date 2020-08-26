@@ -30,6 +30,8 @@ public class BTWTabCompleter implements TabCompleter {
 	private List<String> executeDeclare(CommandSender sender, Command cmd, String stringCmd, String[] args) {
 		Set<String> subCommands = WarType.getWarTypes();
 		
+		if (args.length > 2) return null;
+		
 		List<String> cmdList = new ArrayList<String>();
 		for (String s : subCommands) {
 			if (s.toLowerCase().startsWith(args[1].toLowerCase())) {

@@ -35,7 +35,8 @@ public class WarManager {
 				Iterator<War> i = _wars.iterator();
 				while (i.hasNext()) {
 					currentIteratedWar = i.next();
-					if (currentIteratedWar.getEndTime() <= System.currentTimeMillis()) {
+					long currentTime = System.currentTimeMillis();
+					if (currentIteratedWar.getEndTime() <= currentTime) {
 						currentIteratedWar.onWarPeace();
 						currentIteratedWar.disablePvP();
 						i.remove();
