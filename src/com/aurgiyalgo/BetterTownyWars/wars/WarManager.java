@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.aurgiyalgo.BetterTownyWars.BetterTownyWars;
+import com.aurgiyalgo.BetterTownyWars.BetterTownyWars.Configuration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -70,10 +71,12 @@ public class WarManager {
 	}
 	
 	public void initTimeLimitCheck() {
+		if (Configuration.MAX_WAR_DURATION <= 0) return;
 		_timeCheckTimer.runTaskTimer(BetterTownyWars.getInstance(), 0, BetterTownyWars.Configuration.WAR_ENDED_CHECK_INTERVAL * 20);
 	}
 	
 	public void disableTimeLimitCheck() {
+		if (Configuration.MAX_WAR_DURATION <= 0) return;
 		_timeCheckTimer.cancel();
 	}
 	

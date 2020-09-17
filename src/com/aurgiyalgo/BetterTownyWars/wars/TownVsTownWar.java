@@ -52,7 +52,6 @@ public class TownVsTownWar extends War {
 	@Override
 	protected void onWarFinish() {
 		Town winner = null;
-		Town looser = null;
 
 		for (Town t : _towns) {
 			int playersKilled = 0;
