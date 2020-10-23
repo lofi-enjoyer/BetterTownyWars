@@ -1,6 +1,6 @@
-name: BetterTownyWars
-version: 2.1.6
-author: Joselu
+name: ${project.artifactId}
+version: ${project.version}_${git.commit.id.abbrev}
+author: aurgiyalgo
 main: com.aurgiyalgo.BetterTownyWars.BetterTownyWars
 depend: [Towny]
 commands:
