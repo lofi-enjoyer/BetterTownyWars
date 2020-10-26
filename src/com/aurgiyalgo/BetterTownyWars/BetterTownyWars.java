@@ -73,6 +73,7 @@ public class BetterTownyWars extends JavaPlugin {
 		getConfig().addDefault("language", String.valueOf("en_US"));
 		getConfig().addDefault("max_war_duration", Long.valueOf(604800000L));
 		getConfig().addDefault("nation_vs_nation_kill_percentage_to_finish", Double.valueOf(0.5));
+		getConfig().addDefault("town_vs_town_kill_percentage_to_finish", Double.valueOf(0.5));
 		getConfig().addDefault("lose_war_cost", Double.valueOf(100));
 		getConfig().addDefault("war_ended_check_interval", Integer.valueOf(30));
 		getConfig().addDefault("neutrality_cost", Double.valueOf(50));
@@ -85,6 +86,7 @@ public class BetterTownyWars extends JavaPlugin {
 		Configuration.MAX_WAR_DURATION = getConfig().getLong("max_war_duration");
 		Configuration.LOSE_WAR_COST = getConfig().getDouble("lose_war_cost");
 		Configuration.NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH = getConfig().getDouble("nation_vs_nation_kill_percentage_to_finish");
+		Configuration.TOWN_VS_TOWN_KILL_PERCENTAGE_TO_FINISH = getConfig().getDouble("town_vs_town_kill_percentage_to_finish");
 		Configuration.WAR_ENDED_CHECK_INTERVAL = getConfig().getInt("war_ended_check_interval");
 		Configuration.NEUTRALITY_COST = getConfig().getDouble("neutrality_cost");
 		Configuration.ADD_MISSING_MESSAGES_TO_CONFIG = getConfig().getBoolean("add_missing_messages_to_config");
@@ -109,6 +111,7 @@ public class BetterTownyWars extends JavaPlugin {
 	public static class Configuration {
 		public static String LANGUAGE_FILE = "en_US";
 		public static double NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH = 0.5;
+		public static double TOWN_VS_TOWN_KILL_PERCENTAGE_TO_FINISH = 0.5;
 		public static double LOSE_WAR_COST = 100;
 		public static long MAX_WAR_DURATION = 604800000L;
 		public static int WAR_ENDED_CHECK_INTERVAL = 5;
