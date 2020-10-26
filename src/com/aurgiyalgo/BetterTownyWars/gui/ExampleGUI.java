@@ -49,8 +49,8 @@ public class ExampleGUI implements InventoryHolder, Listener {
     }
 
     private void initializeItems() {
-        _inv.addItem(createGuiItem(Material.DIAMOND_SWORD, "Example Sword", "§aFirst line of the lore", "§bSecond line of the lore"));
-        _inv.addItem(createGuiItem(Material.IRON_HELMET, "§bExample Helmet", "§aFirst line of the lore", "§bSecond line of the lore"));
+        _inv.addItem(createGuiItem(Material.DIAMOND_SWORD, "Example Sword", "&aFirst line of the lore", "&bSecond line of the lore"));
+        _inv.addItem(createGuiItem(Material.IRON_HELMET, "&bExample Helmet", "&aFirst line of the lore", "&bSecond line of the lore"));
     }
 
     // Nice little method to create a gui item with a custom name, and description

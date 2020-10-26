@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.aurgiyalgo.BetterTownyWars.commands.BTWCommandExecutor;
 import com.aurgiyalgo.BetterTownyWars.data.DataHandler;
@@ -45,7 +46,7 @@ public class BetterTownyWars extends JavaPlugin {
 		WarType.addWarType("NATION_VS_NATION", "Nation VS Nation", NationVsNationWar.class);
 		WarType.addWarType("TOWN_VS_TOWN", "Town VS Town", TownVsTownWar.class);
 		
-		this._warManager.loadData();
+//		this._warManager.loadData();
 		
 		Bukkit.getPluginManager().registerEvents(_listener, _instance);
 		getCommand("bettertownywars").setExecutor(new BTWCommandExecutor());
@@ -54,6 +55,14 @@ public class BetterTownyWars extends JavaPlugin {
 		
 		this._warManager.forcePvPInTownsAtWar();
 		this._warManager.initTimeLimitCheck();
+		
+		BukkitRunnable runnable = new BukkitRunnable() {
+		      @Override
+		      public void run() {
+		    	  _warManager.loadData();
+		      }
+		   };
+		   runnable.runTaskLater(this, 1L);
 	}
 	
 	@Override
