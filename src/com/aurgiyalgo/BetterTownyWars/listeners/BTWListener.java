@@ -1,5 +1,9 @@
 package com.aurgiyalgo.BetterTownyWars.listeners;
 
+import com.aurgiyalgo.BetterTownyWars.wars.War;
+import com.palmergames.bukkit.towny.event.PreDeleteNationEvent;
+import com.palmergames.bukkit.towny.event.PreDeleteTownEvent;
+import com.palmergames.bukkit.towny.object.Nation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +15,8 @@ import com.palmergames.bukkit.towny.TownyUniverse;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
+
+import java.util.List;
 
 public class BTWListener implements Listener {
 	
@@ -33,6 +39,32 @@ public class BTWListener implements Listener {
 				e.getPlayer().sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-alert-on-join"));
 			}
 		} catch (NotRegisteredException e1) {}
+	}
+
+	@EventHandler
+	public void onCityDeletion(PreDeleteTownEvent event) {
+		Town town = event.getTown();
+		List<War> wars = BetterTownyWars.getInstance().getWarManager().getWarsForMember(town.getUuid());
+		if (wars.size() == 0) return;
+		for (War war : wars) {
+			BetterTownyWars.getInstance().getWarManager().finishWar(war);
+		}
+	}
+
+	@EventHandler
+	public void onNationDeletion(PreDeleteNationEvent event) {
+		Nation nation;
+		try {
+			nation = TownyUniverse.getInstance().getDataSource().getNation(event.getNationName());
+		} catch (NotRegisteredException e) {
+			e.printStackTrace();
+			return;
+		}
+		List<War> wars = BetterTownyWars.getInstance().getWarManager().getWarsForMember(nation.getUuid());
+		if (wars.size() == 0) return;
+		for (War war : wars) {
+			BetterTownyWars.getInstance().getWarManager().finishWar(war);
+		}
 	}
 
 }
