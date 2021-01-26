@@ -49,13 +49,13 @@ public class BTWCommandExecutor implements CommandExecutor {
 				sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("not-enough-arguments"));
 				return true;
 			}
-			WarType warType2 = WarType.getWarType(args[1]);
-			if (warType2 == null) {
+			WarType warType = WarType.getWarType(args[1]);
+			if (warType == null) {
 				sender.sendMessage(ChatColor.RED + "Invalid war type!");
 				return true;
 			}
 			try {
-				Method method = warType2.getClassType().getMethod("finishCommandHandler", CommandSender.class, Command.class, String.class, String[].class);
+				Method method = warType.getClassType().getMethod("finishCommandHandler", CommandSender.class, Command.class, String.class, String[].class);
 				method.invoke(null, sender, cmd, cmdString, args);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -82,26 +82,25 @@ public class BTWCommandExecutor implements CommandExecutor {
 				+ "&f  - help &8- &7Shows this message&7&r\n"
 				+ "&f  - declare [type of war] [town/nation] &8- &7Declare a war to a nation&r\n"
 				+ "&f  - finish [type of war] [town/nation] &8- &8Finish a war&r\n"
-				+ "&f  - neutral &8- &7Toggle neutrality of your nation&r\n"
 				+ "&f  - list &8- &7List of active wars"));
 	}
 	
 	private void listActiveWars(CommandSender sender) {
 		List<War> allWars = BetterTownyWars.getInstance().getWarManager().getAllWars();
 		if (allWars.size() <= 0) {
-			sender.sendMessage(ChatColor.RED + "There's no active wars");
+			sender.sendMessage(ChatColor.RED + "There are no active wars");
 			return;
 		}
 		StringBuilder builder = new StringBuilder();
 		builder.append(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "Active wars Now" + ChatColor.RESET + "\n\n");
 		for (War war : allWars) {
-			builder.append(" - ");
+			builder.append(ChatColor.WHITE + " - ");
 			builder.append(war.getMemberName(war.getMembers().get(0)));
 			for (int i = 1; i < war.getMembers().size(); i++) {
 				builder.append(", ");
 				builder.append(war.getMemberName(war.getMembers().get(i)));
 			}
-			builder.append(" (" + war.getType().getFormattedName() + ")\n");
+			builder.append(ChatColor.GRAY + " (" + war.getType().getFormattedName() + ")\n");
 		}
 		sender.sendMessage(builder.toString());
 	}

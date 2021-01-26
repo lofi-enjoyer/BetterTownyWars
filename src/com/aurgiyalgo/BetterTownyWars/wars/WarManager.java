@@ -18,22 +18,22 @@ import com.google.gson.GsonBuilder;
 
 public class WarManager {
 	
-	private List<War> _wars;
-	private BukkitRunnable _timeCheckTimer;
-	private static Gson _gson;
+	private List<War> wars;
+	private BukkitRunnable timeCheckTimer;
+	private static Gson gson;
 	
 	public WarManager() {
-		_wars = new ArrayList<War>();
+		wars = new ArrayList<War>();
 		
-		_gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
-		_timeCheckTimer = new BukkitRunnable() {
+		timeCheckTimer = new BukkitRunnable() {
 			
 			War currentIteratedWar;
 			
 			@Override
 			public void run() {
-				Iterator<War> i = _wars.iterator();
+				Iterator<War> i = wars.iterator();
 				while (i.hasNext()) {
 					currentIteratedWar = i.next();
 					long currentTime = System.currentTimeMillis();
@@ -53,17 +53,17 @@ public class WarManager {
 		if (jsonArray == null) return;
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject currentObject = jsonArray.get(i);
-			War war = _gson.fromJson(currentObject.toJSONString(), WarType.getWarType(currentObject.get("_type").toString()).getClassType());
+			War war = gson.fromJson(currentObject.toJSONString(), WarType.getWarType(currentObject.get("_type").toString()).getClassType());
 			war.setupWar();
-			_wars.add(war);
+			wars.add(war);
 		}
 	}
 	
 	public void saveData() {
 		List<JSONObject> jsonArray = new ArrayList<JSONObject>();
-		for (War w : _wars) {
+		for (War w : wars) {
 			try {
-				JSONObject jsonObject = (JSONObject) new JSONParser().parse(_gson.toJson(w));
+				JSONObject jsonObject = (JSONObject) new JSONParser().parse(gson.toJson(w));
 				jsonArray.add(jsonObject);
 			} catch (ParseException e) {e.printStackTrace();}
 		}
@@ -72,22 +72,22 @@ public class WarManager {
 	
 	public void initTimeLimitCheck() {
 		if (Configuration.MAX_WAR_DURATION <= 0) return;
-		_timeCheckTimer.runTaskTimer(BetterTownyWars.getInstance(), 0, BetterTownyWars.Configuration.WAR_ENDED_CHECK_INTERVAL * 20);
+		timeCheckTimer.runTaskTimer(BetterTownyWars.getInstance(), 0, BetterTownyWars.Configuration.WAR_ENDED_CHECK_INTERVAL * 20);
 	}
 	
 	public void disableTimeLimitCheck() {
 		if (Configuration.MAX_WAR_DURATION <= 0) return;
-		_timeCheckTimer.cancel();
+		timeCheckTimer.cancel();
 	}
 	
 	public void forcePvPInTownsAtWar() {
-		for (War war : _wars) {
+		for (War war : wars) {
 			war.enablePvP();
 		}
 	}
 	
 	public void disablePvPInTownsAtWar() {
-		for (War war : _wars) {
+		for (War war : wars) {
 			war.disablePvP();
 		}
 	}
@@ -98,7 +98,7 @@ public class WarManager {
 	}
 	
 	public void declareWar(War war) {
-		_wars.add(war);
+		wars.add(war);
 		war.onWarDeclare();
 		war.enablePvP();
 	}
@@ -106,29 +106,29 @@ public class WarManager {
 	public void finishWar(War war) {
 		war.onWarFinish();
 		war.disablePvP();
-		_wars.remove(war);
+		wars.remove(war);
 	}
 	
 	public void declarePeace(War war) {
 		war.onWarPeace();
 		war.disablePvP();
-		_wars.remove(war);
+		wars.remove(war);
 	}
 	
 	public List<War> getWarsForMember(UUID member) {
 		List<War> wars = new ArrayList<War>();
-		for (War w : _wars) {
+		for (War w : this.wars) {
 			if (w.getMembers().contains(member)) wars.add(w);
 		}
 		return wars;
 	}
 	
 	public List<War> getAllWars() {
-		return new ArrayList<War>(_wars);
+		return new ArrayList<War>(wars);
 	}
 	
 	public void onPlayerKill(Player victim, Player killer) {
-		List<War> tempWars = new ArrayList<War>(_wars);
+		List<War> tempWars = new ArrayList<War>(wars);
 		for (War war : tempWars) {
 			war.onPlayerKill(victim, killer);
 		}

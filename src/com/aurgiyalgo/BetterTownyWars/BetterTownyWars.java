@@ -21,63 +21,63 @@ import com.aurgiyalgo.BetterTownyWars.wars.WarManager;
 import com.aurgiyalgo.BetterTownyWars.wars.WarType;
 
 public class BetterTownyWars extends JavaPlugin {
-	
-	private static BetterTownyWars _instance;
-	
-	private WarManager _warManager;
-	private BTWListener _listener;
-	private DataHandler _dataHandler;
-	private BTWLanguageHandler _languageHandler;
-	
-	private FileConfiguration _languageFile;
-	
+
+	private static BetterTownyWars instance;
+
+	private WarManager warManager;
+	private BTWListener listener;
+	private DataHandler dataHandler;
+	private BTWLanguageHandler languageHandler;
+
+	private FileConfiguration languageFile;
+
 	@Override
 	public void onEnable() {
-		_instance = this;
-		
+		instance = this;
+
 		setupConfig();
-		
-		_warManager = new WarManager();
-		_listener = new BTWListener();
-		_dataHandler = new DataHandler(getDataFolder());
-		
+
+		warManager = new WarManager();
+		listener = new BTWListener();
+		dataHandler = new DataHandler(getDataFolder());
+
 		setupLanguage();
-		
+
 		WarType.addWarType("NATION_VS_NATION", "Nation VS Nation", NationVsNationWar.class);
 		WarType.addWarType("TOWN_VS_TOWN", "Town VS Town", TownVsTownWar.class);
-		
+
 //		this._warManager.loadData();
-		
-		Bukkit.getPluginManager().registerEvents(_listener, _instance);
+
+		Bukkit.getPluginManager().registerEvents(listener, instance);
 		getCommand("bettertownywars").setExecutor(new BTWCommandExecutor());
-		getCommand("bettertownywars").setPermissionMessage(_languageHandler.getMessage("no-permission"));
+		getCommand("bettertownywars").setPermissionMessage(languageHandler.getMessage("no-permission"));
 		getCommand("bettertownywars").setTabCompleter(new BTWTabCompleter());
-		
-		this._warManager.forcePvPInTownsAtWar();
-		this._warManager.initTimeLimitCheck();
-		
+
+		this.warManager.forcePvPInTownsAtWar();
+		this.warManager.initTimeLimitCheck();
+
 		BukkitRunnable runnable = new BukkitRunnable() {
-		      @Override
-		      public void run() {
-		    	  _warManager.loadData();
-		      }
-		   };
-		   runnable.runTaskLater(this, 1L);
+			@Override
+			public void run() {
+				warManager.loadData();
+			}
+		};
+		runnable.runTaskLater(this, 1L);
 	}
-	
+
 	@Override
 	public void onDisable() {
-		_warManager.disableTimeLimitCheck();
-		_warManager.saveData();
-		_warManager.disablePvPInTownsAtWar();
-		_dataHandler.saveData();
-		
-		_languageHandler = null;
-		_warManager = null;
-		_listener = null;
-		_dataHandler = null;
+		warManager.disableTimeLimitCheck();
+		warManager.saveData();
+		warManager.disablePvPInTownsAtWar();
+		dataHandler.saveData();
+
+		languageHandler = null;
+		warManager = null;
+		listener = null;
+		dataHandler = null;
 	}
-	
+
 	private void setupConfig() {
 		getConfig().addDefault("language", String.valueOf("en_US"));
 		getConfig().addDefault("max_war_duration", Long.valueOf(604800000L));
@@ -90,7 +90,7 @@ public class BetterTownyWars extends JavaPlugin {
 		getConfig().addDefault("declare_war_cost", Double.valueOf(100));
 		getConfig().options().copyDefaults(true);
 		saveConfig();
-		
+
 		Configuration.LANGUAGE_FILE = getConfig().getString("language");
 		Configuration.MAX_WAR_DURATION = getConfig().getLong("max_war_duration");
 		Configuration.LOSE_WAR_COST = getConfig().getDouble("lose_war_cost");
@@ -101,9 +101,16 @@ public class BetterTownyWars extends JavaPlugin {
 		Configuration.ADD_MISSING_MESSAGES_TO_CONFIG = getConfig().getBoolean("add_missing_messages_to_config");
 		Configuration.DECLARE_WAR_COST = getConfig().getDouble("declare_war_cost");
 	}
-	
+
 	private void setupLanguage() {
-        File file = new File(getDataFolder(), getConfig().getString("language") + ".yml");
+		if (!new File(getDataFolder(), "en_US.yml").exists()) {
+			saveResource("es_US.yml", false);
+		}
+		if (!new File(getDataFolder(), "it_IT.yml").exists()) {
+			saveResource("it_IT.yml", false);
+		}
+
+		File file = new File(getDataFolder(), getConfig().getString("language") + ".yml");
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 			try {
@@ -112,11 +119,11 @@ public class BetterTownyWars extends JavaPlugin {
 				e.printStackTrace();
 			}
 		}
-		
-		_languageFile = YamlConfiguration.loadConfiguration(file);
-		_languageHandler = new BTWLanguageHandler(_languageFile, file);
-    }
-	
+
+		languageFile = YamlConfiguration.loadConfiguration(file);
+		languageHandler = new BTWLanguageHandler(languageFile, file);
+	}
+
 	public static class Configuration {
 		public static String LANGUAGE_FILE = "en_US";
 		public static double NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH = 0.5;
@@ -128,23 +135,23 @@ public class BetterTownyWars extends JavaPlugin {
 		public static boolean ADD_MISSING_MESSAGES_TO_CONFIG = true;
 		public static double DECLARE_WAR_COST = 100;
 	}
-	
+
 	public WarManager getWarManager() {
-		return _warManager;
+		return warManager;
 	}
-	
+
 	public DataHandler getDataHandler() {
-		return _dataHandler;
+		return dataHandler;
 	}
-	
+
 	public BTWLanguageHandler getLanguageHandler() {
-		return _languageHandler;
+		return languageHandler;
 	}
-	
+
 	public static BetterTownyWars getInstance() {
-		return _instance;
+		return instance;
 	}
-	
+
 	public static class Permissions {
 		public static final Permission NVN_DECLARE_PERMISSION = new Permission("btw.declare.nation_vs_nation");
 		public static final Permission NVN_FINISH_PERMISSION = new Permission("btw.finish.nation_vs_nation");

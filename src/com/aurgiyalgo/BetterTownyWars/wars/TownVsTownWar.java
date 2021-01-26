@@ -118,6 +118,8 @@ public class TownVsTownWar extends War {
 
 			if (playersKilled >= BetterTownyWars.Configuration.NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH
 					* victimTown.getResidents().size()) {
+//				System.out.println(BetterTownyWars.Configuration.NATION_VS_NATION_KILL_PERCENTAGE_TO_FINISH
+//					* victimTown.getResidents().size());
 				BetterTownyWars.getInstance().getWarManager().finishWar(this);
 			}
 
@@ -142,7 +144,7 @@ public class TownVsTownWar extends War {
 	@Override
 	public String getMemberName(UUID member) {
 		for (Town t : _towns) {
-			if (t.getUuid().equals(member))
+			if (t.getUUID().equals(member))
 				return t.getName();
 		}
 		return null;
@@ -160,7 +162,7 @@ public class TownVsTownWar extends War {
 	@Override
 	protected void onMemberLeave(UUID member) {
 		for (Town t : _towns) {
-			if (t.getUuid().equals(member))
+			if (t.getUUID().equals(member))
 				_towns.remove(t);
 		}
 	}
@@ -168,7 +170,7 @@ public class TownVsTownWar extends War {
 	@Override
 	protected void onWarPeace() {
 		for (Town t : _towns) {
-			TownyMessaging.sendTownMessage(t,
+			TownyMessaging.sendTownMessagePrefixed(t,
 					BetterTownyWars.getInstance().getLanguageHandler().getMessage("war-ended-by-peace"));
 		}
 	}
@@ -177,14 +179,14 @@ public class TownVsTownWar extends War {
 	protected void onMemberRequestPeace(UUID member) {
 		Town townRequest = null;
 		for (Town t : _towns) {
-			if (t.getUuid().equals(member)) {
+			if (t.getUUID().equals(member)) {
 				townRequest = t;
 				break;
 			}
 		}
 		for (Town t : _towns) {
-			if (!t.getUuid().equals(member))
-				TownyMessaging.sendTownMessage(t, ChatColor.GREEN + townRequest.getFormattedName()
+			if (!t.getUUID().equals(member))
+				TownyMessaging.sendTownMessagePrefixed(t, ChatColor.GREEN + townRequest.getFormattedName()
 						+ BetterTownyWars.getInstance().getLanguageHandler().getMessage("peace-requested"));
 		}
 	}
@@ -225,20 +227,20 @@ public class TownVsTownWar extends War {
 			}
 		} catch (NotRegisteredException e1) {
 		}
-		for (War w : BetterTownyWars.getInstance().getWarManager().getWarsForMember(playerTown.getUuid())) {
-			if (!w.getMembers().contains(enemyTown.getUuid()))
+		for (War w : BetterTownyWars.getInstance().getWarManager().getWarsForMember(playerTown.getUUID())) {
+			if (!w.getMembers().contains(enemyTown.getUUID()))
 				continue;
 			sender.sendMessage(ChatColor.RED + "You are already at war with this town");
 			return;
 		}
 		long endTime = System.currentTimeMillis() + BetterTownyWars.Configuration.MAX_WAR_DURATION;
 		TownVsTownWar war = new TownVsTownWar(WarType.getWarType("TOWN_VS_TOWN").toString(), endTime);
-		war.addMember(playerTown.getUuid());
-		war.addMember(enemyTown.getUuid());
+		war.addMember(playerTown.getUUID());
+		war.addMember(enemyTown.getUUID());
 		BetterTownyWars.getInstance().getWarManager().declareWar(war);
 		try {
 			if (playerTown.getAccount().canPayFromHoldings(Configuration.DECLARE_WAR_COST))
-				playerTown.getAccount().pay(Configuration.DECLARE_WAR_COST, "Declare war cost");
+				playerTown.getAccount().withdraw(Configuration.DECLARE_WAR_COST, "Declare war cost");
 		} catch (EconomyException e) {
 		}
 	}
@@ -271,11 +273,11 @@ public class TownVsTownWar extends War {
 			sender.sendMessage(ChatColor.RED + "You cannot request peace to your own town!");
 			return;
 		}
-		List<War> activeWars = BetterTownyWars.getInstance().getWarManager().getWarsForMember(playerTown.getUuid());
+		List<War> activeWars = BetterTownyWars.getInstance().getWarManager().getWarsForMember(playerTown.getUUID());
 		War correctWar = null;
 		for (War war : activeWars) {
 			List<UUID> members = war.getMembers();
-			if (members.contains(enemyTown.getUuid())) {
+			if (members.contains(enemyTown.getUUID())) {
 				correctWar = war;
 				break;
 			}
@@ -285,7 +287,7 @@ public class TownVsTownWar extends War {
 			return;
 		}
 		sender.sendMessage(BetterTownyWars.getInstance().getLanguageHandler().getMessage("you-peace-requested"));
-		BetterTownyWars.getInstance().getWarManager().requestPeace(correctWar, playerTown.getUuid());
+		BetterTownyWars.getInstance().getWarManager().requestPeace(correctWar, playerTown.getUUID());
 	}
 
 }

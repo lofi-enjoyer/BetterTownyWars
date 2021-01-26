@@ -120,7 +120,7 @@ public abstract class War {
 	protected abstract void onWarPeace();
 	
 	/**
-	 * @param member Fired when a member of the war sends a peace requesta
+	 * @param member Fired when a member of the war sends a peace request
 	 */
 	protected abstract void onMemberRequestPeace(UUID member);
 	
@@ -132,7 +132,7 @@ public abstract class War {
 	protected abstract void onPlayerKill(Player victim, Player killer);
 	
 	/**
-	 * Enabled PvP on all the cities/nations of the war
+	 * Enables PvP on all the cities/nations of the war
 	 */
 	public abstract void enablePvP();
 	
